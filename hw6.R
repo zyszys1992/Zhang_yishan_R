@@ -1,4 +1,6 @@
+#hw 6 in Group C
 str(diamonds)
+
 diamonds
 #question 2
 #use library ggplot to draw a graph between price=y and carat=x

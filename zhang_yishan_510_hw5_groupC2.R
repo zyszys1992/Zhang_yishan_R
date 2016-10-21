@@ -137,29 +137,22 @@ func7 <- function(data){
 
 
 
-
-#question 8
-#define a function as function8 which can give a "-" between each columns names and 
-#also connect two columns' variable by "-"
-#parameter is x which means data you put in.
-function8<-function(x){
-  #for loop through i which start from the 1st to the ncol(x)-1
-  for (i in 1:(ncol(x)-1)){
-    #for loop through j which start from the i+1 to the ncol(x)
-    for(j in (i+1):ncol(x) ){
-      #paste function to connect two columns by "-"
-      pairs=matrix(paste(colnames(x)[i],colnames(x)[j],sep="-"),ncol=1,nrow(x))
-      pairs2=matrix(paste(matrix(x[,i],ncol=1,nrow=nrow(x)),matrix(x[,j],ncol=1,nrow=nrow(x)),sep="-"),ncol=1,nrow=nrow(x))
-      print(data.frame(pairs,pairs2))
-    }}
-  #for loop through i which start from the 1st to the ncol(x)-1
-  for (i in 1:(ncol(x)-1))
-    #for loop through j which start from the i+1 to the ncol(x)
-    for(j in (i+1):ncol(x)) 
-      #determine if two columns are numeric, give the correlation of them 
-      if (is.numeric(x[,i]) & is.numeric(x[,j]))
-        print(paste(colnames(x)[i],colnames(x)[j],cor(x[,i],x[,j]),sep="-"))
-}
-
-
+#question8
+#question 8 is from Ke.
+funcq8 <- function(data){
+  num <- sapply(data, is.numeric) # Check the numeric columns of the dataframe and assign them to a logical vector num.
+  new_data <- data[,num] # Create a new dataframe with only numeric vectors.
+  names <- colnames(new_data) # Assign the vector of column names of the new dataframe to a new vector names
+  combonames <- combn(names, 2) # Assign the combination of vector names (here we used n choose 2, which give the combination of choosing 2 elements from the vector names) to combonames
+  combo <- combn(length(colnames(new_data)), 2) # Assign the similar combination as the above line to the length of the vector colnames(new_data), namely the vector names
+  variable <- paste(combonames[1,], combonames[2,], sep = '-') # Assign the pairs of column names linked with "-" to a new vector variable
+  Pcorcoeff <- c() # Assign an empty vector to the column of Pearson correlation coefficient
+  
+  for(i in 1:length(variable)){ # Loop for each element in variable
+    p <- cor(x= new_data[combo[1,i]], y = new_data[combo[2,i]]) # Assign the correlation of pairs of column to p.
+    Pcorcoeff[i] <- p[1] # Assign p with the desired Pearson correlation coefficient to the vector of Pcorcoeff.
+  }
+  return(data.frame(variable, Pcorcoeff)) # Outputs the dataframe containing pairs of column names and their Pearson correlation coefficient
+}  
+funcq8(diamonds)
 
